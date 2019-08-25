@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { WeatherSService } from '../weather-s.service';
+import { WeatherSService } from '../search-city.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 export class CitySearchComponent implements OnInit, OnDestroy {
   resSetFromServis: Set<{}>;
   ollCountries: Array<string>;
-  chooseCountryName = "Ukraine";
+  chooseCountryName = 'Ukraine';
   unsubscribe: Subscription;
   toggleDD = false;
   choousenCity = '';
@@ -24,10 +24,10 @@ export class CitySearchComponent implements OnInit, OnDestroy {
       this.ollCountries = [...res];
     });
   }
-  toggleDropDown(city) {
+  toggleDropDown(city: string) {
     this.toggleDD = !this.toggleDD;
     this.choousenCity = city;
-    console.log(city.split(",")[0])
+    console.log(city.split(',')[0])
   }
 
   searchCity(cityName: string): void {
@@ -36,6 +36,25 @@ export class CitySearchComponent implements OnInit, OnDestroy {
       this.weatherSService.findCity(cityName, this.chooseCountryName);
       this.resSetFromServis = this.weatherSService.objSetOfCityAndRegion;
     }else this.toggleDD = false;
+  }
+
+  geoFindMe() {
+    function success(position) {
+      console.log(position)
+      const latitude  = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      // console.log(`https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`);
+      // console.log(`Latitude: ${latitude} °, Longitude: ${longitude} °`)
+
+    }
+    function error() {
+      console.log('Unable to retrieve your location')
+    }
+    if (!navigator.geolocation) {
+      console.log("ne pidtrumyersa brayzerom")
+    } else {
+      navigator.geolocation.getCurrentPosition(success, error);
+    }
   }
 
   ngOnDestroy() {
