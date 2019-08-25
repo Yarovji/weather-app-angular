@@ -1,0 +1,21 @@
+.optiomElement {
+  position: absolute;
+
+  width: 254px;
+  height: 200px;
+  max-height: 300px;
+  background-color: aquamarine;
+  overflow-y: auto;
+}
+
+input {
+  width: 250px;
+}
+
+.inputForFlex {
+  position: relative;
+  background-color: aqua;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

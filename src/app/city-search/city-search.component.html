@@ -1,0 +1,15 @@
+<p>
+  city-search works!
+</p>
+<div class="inputForFlex">
+  <form #Form>
+    <input type="text" name="city" (keyup)="searchCity($event.target.value)" autocomplete="off">
+    <div class="optiomElement">
+      <div class="arrayOfSeath" *ngFor='let elem of resSetFromServis'>
+        {{elem}}
+      </div>
+    </div>
+    <!-- <button type="submit">Знайти</button> -->
+
+  </form>
+</div>
