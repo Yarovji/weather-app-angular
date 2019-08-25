@@ -12,4 +12,14 @@
     <!-- <button type="submit">Знайти</button> -->
 
   </form>
+
+
+
 </div>
+<select [(ngModel)]="chooseCountryName">
+  <ng-container *ngFor="let country of ollCountries">
+    <option [value]="country">
+      <span>{{country}}</span>
+    </option>
+  </ng-container>
+</select>
