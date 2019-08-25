@@ -1,25 +1,18 @@
-<p>
-  city-search works!
-</p>
 <div class="inputForFlex">
   <form #Form>
-    <input type="text" name="city" (keyup)="searchCity($event.target.value)" autocomplete="off">
-    <div class="optiomElement">
-      <div class="arrayOfSeath" *ngFor='let elem of resSetFromServis'>
+    <input type="text" #city (keyup)="searchCity($event.target.value)" autocomplete="off" [value]="choousenCity"
+      (click)="city.value = ''">
+    <div class="optiomElement" *ngIf="toggleDD && resSetFromServis.size > 0 ">
+      <div class="arrayOfSeath" *ngFor='let elem of resSetFromServis' (click)="toggleDropDown(elem)">
         {{elem}}
       </div>
     </div>
-    <!-- <button type="submit">Знайти</button> -->
-
   </form>
-
-
-
+  <select [(ngModel)]="chooseCountryName">
+    <ng-container *ngFor="let country of ollCountries">
+      <option [value]="country">
+        <span>{{country}}</span>
+      </option>
+    </ng-container>
+  </select>
 </div>
-<select [(ngModel)]="chooseCountryName">
-  <ng-container *ngFor="let country of ollCountries">
-    <option [value]="country">
-      <span>{{country}}</span>
-    </option>
-  </ng-container>
-</select>

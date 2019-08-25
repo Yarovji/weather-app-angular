@@ -12,6 +12,8 @@ export class CitySearchComponent implements OnInit, OnDestroy {
   ollCountries: Array<string>;
   chooseCountryName = "Ukraine";
   unsubscribe: Subscription;
+  toggleDD = false;
+  choousenCity = '';
 
 
   constructor(private weatherSService: WeatherSService) { }
@@ -22,12 +24,18 @@ export class CitySearchComponent implements OnInit, OnDestroy {
       this.ollCountries = [...res];
     });
   }
+  toggleDropDown(city) {
+    this.toggleDD = !this.toggleDD;
+    this.choousenCity = city;
+    console.log(city.split(",")[0])
+  }
 
   searchCity(cityName: string): void {
     if (cityName.length >= 1) {
+      this.toggleDD = true;
       this.weatherSService.findCity(cityName, this.chooseCountryName);
-      this.resSetFromServis = this.weatherSService.resToShow2;
-    }
+      this.resSetFromServis = this.weatherSService.objSetOfCityAndRegion;
+    }else this.toggleDD = false;
   }
 
   ngOnDestroy() {

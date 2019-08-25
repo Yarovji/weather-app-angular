@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/internal/operators/map';
 import { Subject } from 'rxjs';
+import { Regions } from './models/regions.model';
+import { CountryData } from './models/country_data.model';
+import { CityData } from './models/cities.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +12,8 @@ import { Subject } from 'rxjs';
 export class WeatherSService {
   arrayNamesOfOllCountries = [];
   arrOfOllCountriesName: any;
-  myData2 = [];
-  public resToShow2 = new Set();
+  arrayOfregion = [];
+  objSetOfCityAndRegion = new Set();
   dataCountry = new Subject();
 
   constructor(private httpService: HttpClient) {}
@@ -32,22 +35,22 @@ export class WeatherSService {
   }
 
   findCity(cityName: string, countryName: string) {
-    this.myData2.length = 0;
+    this.arrayOfregion.length = 0;
     this.httpService.get(`https://raw.githubusercontent.com/solominh/country_state_city_data/master/data/region/${countryName}.json`)
-      .pipe( map(res => res.regions)).subscribe(data2 => {
-        this.resToShow2.clear();
+      .pipe( map((res: {country_data: CountryData, regions: Array<Regions>}) => res.regions)).subscribe(data2 => {
+        this.objSetOfCityAndRegion.clear();
         // tslint:disable-next-line:forin
         for (const key in data2) {
-          this.myData2.push(data2[key].toponymName);
+          this.arrayOfregion.push(data2[key].toponymName);
         }
-        let arrOfOblastName = []
+        let arrOfRegionNameLocal = []
         // tslint:disable-next-line:prefer-for-of
-        for (let citiLop = 0; citiLop < this.myData2.length; citiLop++) {
+        for (let citiLop = 0; citiLop < this.arrayOfregion.length; citiLop++) {
           this.httpService.get(
               // tslint:disable-next-line:max-line-length
-              `https://raw.githubusercontent.com/solominh/country_state_city_data/master/data/region_city_data/${countryName}/${this.myData2[citiLop]}.json`
-            ).subscribe((res3: {region_data: object, country_data: object, cities: any}) => {
-                arrOfOblastName[res3.region_data.adminCode1] = res3.region_data.toponymName;
+              `https://raw.githubusercontent.com/solominh/country_state_city_data/master/data/region_city_data/${countryName}/${this.arrayOfregion[citiLop]}.json`
+            ).subscribe((res3: {region_data: Regions, country_data: CountryData, cities: Array<CityData>}) => {
+                arrOfRegionNameLocal[res3.region_data.adminCode1] = res3.region_data.toponymName;
                 let arr3_alt = [];
                 let arr3_true = [];
                 const arrOfRegion = [];
@@ -63,7 +66,7 @@ export class WeatherSService {
                   const newarr = arr3_alt[i][alterKilkist].split('');
                   newarr.length = cityName.length;
                   if (newarr.join('').toLowerCase() === cityName.toLowerCase()) {
-                    this.resToShow2.add(`${arr3_true[i]}, ${arrOfOblastName[arrOfRegion[i]]}`);
+                    this.objSetOfCityAndRegion.add(`${arr3_true[i]}, ${arrOfRegionNameLocal[arrOfRegion[i]]}`);
                   }
                 }
               }

@@ -1,10 +1,8 @@
 .optiomElement {
   position: absolute;
-
   width: 254px;
-  height: 200px;
   max-height: 300px;
-  background-color: aquamarine;
+  background-color: #F6F6F6;
   overflow-y: auto;
 }
 
@@ -12,10 +10,23 @@ input {
   width: 250px;
 }
 
+.arrayOfSeath {
+  padding: 10px;
+  font-family: sans-serif;
+  color: #A550BC;
+}
+
+.arrayOfSeath:hover {
+  background: #c2c2c2;
+  cursor: pointer;
+}
+
 .inputForFlex {
   position: relative;
-  background-color: aqua;
+  background-color: rgb(147, 172, 9);
   display: flex;
-  flex-direction: column;
-  align-items: center;
+}
+
+select {
+  width: 150px;
 }
