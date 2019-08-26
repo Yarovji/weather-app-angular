@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WeatherSService } from '../search-city.service';
 import { Subscription } from 'rxjs';
+import { OpenWeatherMapService } from '../open-weather-map.service';
 
 @Component({
   selector: 'app-city-search',
@@ -14,20 +15,26 @@ export class CitySearchComponent implements OnInit, OnDestroy {
   unsubscribe: Subscription;
   toggleDD = false;
   choousenCity = '';
+  choosenCityNameP;
 
 
-  constructor(private weatherSService: WeatherSService) { }
+  constructor(private weatherSService: WeatherSService, private openWeatherMapService: OpenWeatherMapService) { }
 
   ngOnInit() {
+    this.geoFindMe();
     this.weatherSService.allCountry();
     this.unsubscribe =  this.weatherSService.dataCountry.subscribe((res: Array<string>) => {
       this.ollCountries = [...res];
     });
   }
+
   toggleDropDown(city: string) {
     this.toggleDD = !this.toggleDD;
-    this.choousenCity = city;
-    console.log(city.split(',')[0])
+    this.choousenCity = `${city.split(',')[0]}`;
+    this.openWeatherMapService.getWeatherFor5D(city.split(',')[2], city.split(',')[3] ).subscribe(res=>{
+      console.log(res);
+      this.choosenCityNameP = res;
+    });
   }
 
   searchCity(cityName: string): void {
@@ -35,25 +42,20 @@ export class CitySearchComponent implements OnInit, OnDestroy {
       this.toggleDD = true;
       this.weatherSService.findCity(cityName, this.chooseCountryName);
       this.resSetFromServis = this.weatherSService.objSetOfCityAndRegion;
-    }else this.toggleDD = false;
+    } else { this.toggleDD = false; }
   }
 
-  geoFindMe() {
-    function success(position) {
-      console.log(position)
-      const latitude  = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      // console.log(`https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`);
-      // console.log(`Latitude: ${latitude} °, Longitude: ${longitude} °`)
 
-    }
-    function error() {
-      console.log('Unable to retrieve your location')
-    }
+
+  geoFindMe() {
     if (!navigator.geolocation) {
-      console.log("ne pidtrumyersa brayzerom")
+      console.log('Геолокація не підтримується браузером');
     } else {
-      navigator.geolocation.getCurrentPosition(success, error);
+      navigator.geolocation.getCurrentPosition((position: any) => {
+        this.openWeatherMapService.getWeatherFor5D(position.coords.latitude, position.coords.longitude).subscribe(res=>{
+          console.log(res);
+          this.choosenCityNameP = res;
+        })}, error => console.log('Не визначено місцезнаходження'));
     }
   }
 

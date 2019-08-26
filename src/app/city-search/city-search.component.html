@@ -4,7 +4,7 @@
       (click)="city.value = ''">
     <div class="optiomElement" *ngIf="toggleDD && resSetFromServis.size > 0 ">
       <div class="arrayOfSeath" *ngFor='let elem of resSetFromServis' (click)="toggleDropDown(elem)">
-        {{elem}}
+        {{elem | transformString}}
       </div>
     </div>
   </form>
@@ -19,4 +19,5 @@
 <br>
 <button id = "find-me" (click)="geoFindMe()">Show my location</button><br/>
 
+<app-show-weather [choosenCityName]="choosenCityNameP"></app-show-weather>
 
