@@ -1,22 +1,25 @@
 <div class="mainConteiner">
-  <div class="inputForFlex">
-    <form #Form>
-      <input type="text" #city (keyup)="searchCity($event.target.value)" autocomplete="off" [value]="choousenCity"
-        (click)="city.value = ''">
-      <div class="optiomElement" *ngIf="toggleDD && resSetFromServis.size > 0 ">
-        <div class="arrayOfSeath" *ngFor='let elem of resSetFromServis' (click)="toggleDropDown(elem)">
-          {{elem | transformString}}
-        </div>
+  <div class="input-city">
+    <input type="text" class="form-control" aria-label="Sizing example input"
+      aria-describedby="inputGroup-sizing-default" #city (keyup)="searchCity($event.target.value)" autocomplete="off"
+      [value]="choousenCity" (click)="city.value = ''">
+    <div class="optiomCityElement" *ngIf="toggleDD && resSetFromServis.size > 0 ">
+      <div class="arrayOfSeath" *ngFor='let elem of resSetFromServis' (click)="toggleDropDown(elem)">
+        {{elem | transformString}}
       </div>
-    </form>
-    <select [(ngModel)]="chooseCountryName">
+    </div>
+  </div>
+  <div class="input-country">
+    <select class="custom-select" id="inputGroupSelect02" [(ngModel)]="chooseCountryName">
       <ng-container *ngFor="let country of ollCountries">
         <option [value]="country">
-          <span>{{country}}</span>
+          <span class="sss">{{country}}</span>
         </option>
       </ng-container>
     </select>
   </div>
 </div>
 <br>
-<app-show-weather [choosenCityName]="choosenCityNameP"></app-show-weather>
+<ng-container *ngIf="choosenCityNameP">
+  <app-show-weather [choosenCityName]="choosenCityNameP"></app-show-weather>
+</ng-container>

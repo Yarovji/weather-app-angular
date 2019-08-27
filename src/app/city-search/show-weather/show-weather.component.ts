@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Weather } from 'src/app/models/weather.model';
 
 @Component({
   selector: 'app-show-weather',
@@ -7,12 +8,14 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ShowWeatherComponent implements OnInit {
   // tslint:disable-next-line:no-input-rename
-  @Input('choosenCityName') choosenCityName: any;
+  @Input('choosenCityName') choosenCityName: Weather;
+  set = new Set();
 
   constructor() { }
 
   ngOnInit() {
 
+    console.log(this.choosenCityName)
   }
 
 }

@@ -32,7 +32,6 @@ export class CitySearchComponent implements OnInit, OnDestroy {
     this.toggleDD = !this.toggleDD;
     this.choousenCity = `${city.split(',')[0]}`;
     this.openWeatherMapService.getWeatherFor5D(city.split(',')[2], city.split(',')[3] ).subscribe((weatherData: Weather) => {
-      console.log(weatherData);
       this.choosenCityNameP = weatherData;
     });
   }
@@ -50,7 +49,6 @@ export class CitySearchComponent implements OnInit, OnDestroy {
       console.log('Геолокація не підтримується браузером');
     } else {
       navigator.geolocation.getCurrentPosition((position: any) => {
-        console.log(position)
         this.openWeatherMapService.getWeatherFor5D(position.coords.latitude, position.coords.longitude)
         .subscribe((weatherData: Weather) => {
           this.choosenCityNameP = weatherData;

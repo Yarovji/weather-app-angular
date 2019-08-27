@@ -1,38 +1,71 @@
-<div style="padding: 0px 13px; text-align:center;">
-  <h1 class="mt-5">
-    Extended Forecast Search Results
-  </h1>
+<div class="header">
   <p>Here are your search results for the extended forecast for every 3 hours in the next 5 days</p>
 </div>
 <div>
-
-  <h2 style="text-align:center"  *ngIf="choosenCityName?.city">
-    <img src="https://openweathermap.org/img/w/{{choosenCityName.list[0].weather[0].icon}}.png" class="forecast-icon" alt="forecast">
-    {{choosenCityName.list[0].weather[0].description}} in {{choosenCityName.city.name}}, {{choosenCityName.city.country}}
+  <h2 *ngIf="choosenCityName?.city">
+    <img src="https://openweathermap.org/img/w/{{choosenCityName.list[0].weather[0].icon}}.png" class="forecast-icon"
+      alt="forecast">
+    {{choosenCityName.list[0].weather[0].description}} in {{choosenCityName.city.name}},
+    {{choosenCityName.city.country}},
+    {{choosenCityName.city.sunrise * 1000 | date:'dd/MM/yyyy'}}
+    <br>
+    Sunrise {{choosenCityName.city.sunrise * 1000 | date:'hh:mm:ss'}},
+    Sunset {{choosenCityName.city.sunset * 1000 | date:'hh:mm:ss'}}
   </h2>
-
-<div>
-  <table class="table-responsive-md table table-bordered table-striped" mat-table>
+  <div class="bigScreen">
+    <table class="table-responsive-md table table-bordered table-striped" mat-table>
       <thead class="thead-dark">
         <tr>
           <th>DATE | TIME</th>
           <th>TEMPERATURE (C)</th>
-          <th>HUMIDITY</th>
           <th>FORECAST</th>
-          <th></th>
+          <th>HUMIDITY(%)</th>
+          <th>PRESSURE(mm Hg)</th>
           <th>WIND SPEED(m/s)</th>
         </tr>
       </thead>
+      <tbody>
+        <tr *ngFor="let cityForecast of choosenCityName?.list">
+          <td>{{cityForecast.dt_txt | date:'M/dd, EEEE, H:00'}}</td>
+          <td>{{(cityForecast.main.temp-273).toFixed(0)}}</td>
+          <td><img src="https://openweathermap.org/img/w/{{cityForecast.weather[0].icon}}.png" class="forecast-icon"
+              alt="forecast">{{cityForecast.weather[0].description}}</td>
+          <td>{{cityForecast.main.humidity}}</td>
+          <td>{{(cityForecast.main.grnd_level * 0.75006).toFixed(0)}}</td>
+          <td>{{cityForecast.wind.speed}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="smallScreen">
+  <table class=" table" *ngFor="let cityForecast of choosenCityName?.list">
+    <thead class="thead-dark">
+      <tr>
+        <th class="smallScreenWeatherData">{{cityForecast.dt_txt | date:'M/dd, EEEE, H:00'}}</th>
+      </tr>
+    </thead>
     <tbody>
-      <tr *ngFor="let cityForecast of choosenCityName?.list">
-        <td>{{cityForecast.dt_txt}}</td>
-        <td>{{(cityForecast.main.temp-273).toFixed(2)}}</td>
-        <td>{{cityForecast.main.humidity}}</td>
-        <td><img src="https://openweathermap.org/img/w/{{cityForecast.weather[0].icon}}.png" class="forecast-icon" alt="forecast"></td>
-        <td>{{cityForecast.weather[0].description}}</td>
-        <td>{{cityForecast.wind.speed}}</td>
+      <tr>
+        <td>
+          <div class="smallScreenWeatherData">
+            TEMPERATURE (C): {{(cityForecast.main.temp-273).toFixed(0)}}
+          </div>
+          <div class="smallScreenWeatherData">
+            FORECAST: <img src="https://openweathermap.org/img/w/{{cityForecast.weather[0].icon}}.png"
+              class="forecast-icon" alt="forecast">{{cityForecast.weather[0].description}}
+          </div>
+          <div class="smallScreenWeatherData">
+            HUMIDITY(%): {{cityForecast.main.humidity}}
+          </div>
+          <div class="smallScreenWeatherData">
+            PRESSURE(mm Hg): {{(cityForecast.main.grnd_level * 0.75006).toFixed(0)}}
+          </div>
+          <div class="smallScreenWeatherData">
+            WIND SPEED(m/s): {{cityForecast.wind.speed}}
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
-</div>
 </div>

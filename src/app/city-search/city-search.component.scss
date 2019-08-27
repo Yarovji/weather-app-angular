@@ -1,4 +1,10 @@
-.optiomElement {
+.mainConteiner{
+  display: flex;
+  justify-content: center;
+  margin: 50px;
+}
+
+.optiomCityElement {
   position: absolute;
   width: 254px;
   max-height: 300px;
@@ -6,18 +12,10 @@
   overflow-y: auto;
 }
 
-input {
-  width: 250px;
-}
-
-.arrayOfSeath, option {
+.arrayOfSeath {
   padding: 10px;
   font-family: sans-serif;
   color: rgb(80, 118, 188);
-}
-
-.dropCountry {
-  height: 300px;
 }
 
 .arrayOfSeath:hover {
@@ -25,17 +23,10 @@ input {
   cursor: pointer;
 }
 
-.inputForFlex {
-  position: relative;
-  display: flex;
+.input-country {
+  width: 100px;
 }
 
-select {
-  width: 150px;
-}
-
-.mainConteiner{
-  display: flex;
-  justify-content: center;
-  margin: 50px;
+.input-city {
+  width: 254px;
 }

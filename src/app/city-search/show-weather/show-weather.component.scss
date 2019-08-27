@@ -1,0 +1,26 @@
+.smallScreenWeatherData {
+  text-align: center;
+}
+
+.header {
+  padding: 0px 13px;
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .bigScreen {
+    display: none;
+  }
+}
+
+@media (min-width: 760px) {
+  .smallScreen {
+    display: none;
+  }
+}
+
+
