@@ -1,23 +1,22 @@
-<div class="inputForFlex">
-  <form #Form>
-    <input type="text" #city (keyup)="searchCity($event.target.value)" autocomplete="off" [value]="choousenCity"
-      (click)="city.value = ''">
-    <div class="optiomElement" *ngIf="toggleDD && resSetFromServis.size > 0 ">
-      <div class="arrayOfSeath" *ngFor='let elem of resSetFromServis' (click)="toggleDropDown(elem)">
-        {{elem | transformString}}
+<div class="mainConteiner">
+  <div class="inputForFlex">
+    <form #Form>
+      <input type="text" #city (keyup)="searchCity($event.target.value)" autocomplete="off" [value]="choousenCity"
+        (click)="city.value = ''">
+      <div class="optiomElement" *ngIf="toggleDD && resSetFromServis.size > 0 ">
+        <div class="arrayOfSeath" *ngFor='let elem of resSetFromServis' (click)="toggleDropDown(elem)">
+          {{elem | transformString}}
+        </div>
       </div>
-    </div>
-  </form>
-  <select [(ngModel)]="chooseCountryName">
-    <ng-container *ngFor="let country of ollCountries">
-      <option [value]="country">
-        <span>{{country}}</span>
-      </option>
-    </ng-container>
-  </select>
+    </form>
+    <select [(ngModel)]="chooseCountryName">
+      <ng-container *ngFor="let country of ollCountries">
+        <option [value]="country">
+          <span>{{country}}</span>
+        </option>
+      </ng-container>
+    </select>
+  </div>
 </div>
 <br>
-<button id = "find-me" (click)="geoFindMe()">Show my location</button><br/>
-
 <app-show-weather [choosenCityName]="choosenCityNameP"></app-show-weather>
-

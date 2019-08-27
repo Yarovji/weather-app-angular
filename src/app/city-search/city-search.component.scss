@@ -10,10 +10,14 @@ input {
   width: 250px;
 }
 
-.arrayOfSeath {
+.arrayOfSeath, option {
   padding: 10px;
   font-family: sans-serif;
-  color: #A550BC;
+  color: rgb(80, 118, 188);
+}
+
+.dropCountry {
+  height: 300px;
 }
 
 .arrayOfSeath:hover {
@@ -23,10 +27,15 @@ input {
 
 .inputForFlex {
   position: relative;
-  background-color: rgb(147, 172, 9);
   display: flex;
 }
 
 select {
   width: 150px;
+}
+
+.mainConteiner{
+  display: flex;
+  justify-content: center;
+  margin: 50px;
 }

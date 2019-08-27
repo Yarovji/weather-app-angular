@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WeatherSService } from '../search-city.service';
 import { Subscription } from 'rxjs';
 import { OpenWeatherMapService } from '../open-weather-map.service';
+import { Weather } from '../models/weather.model';
 
 @Component({
   selector: 'app-city-search',
@@ -15,8 +16,7 @@ export class CitySearchComponent implements OnInit, OnDestroy {
   unsubscribe: Subscription;
   toggleDD = false;
   choousenCity = '';
-  choosenCityNameP;
-
+  choosenCityNameP: Weather;
 
   constructor(private weatherSService: WeatherSService, private openWeatherMapService: OpenWeatherMapService) { }
 
@@ -31,9 +31,9 @@ export class CitySearchComponent implements OnInit, OnDestroy {
   toggleDropDown(city: string) {
     this.toggleDD = !this.toggleDD;
     this.choousenCity = `${city.split(',')[0]}`;
-    this.openWeatherMapService.getWeatherFor5D(city.split(',')[2], city.split(',')[3] ).subscribe(res=>{
-      console.log(res);
-      this.choosenCityNameP = res;
+    this.openWeatherMapService.getWeatherFor5D(city.split(',')[2], city.split(',')[3] ).subscribe((weatherData: Weather) => {
+      console.log(weatherData);
+      this.choosenCityNameP = weatherData;
     });
   }
 
@@ -45,22 +45,21 @@ export class CitySearchComponent implements OnInit, OnDestroy {
     } else { this.toggleDD = false; }
   }
 
-
-
   geoFindMe() {
     if (!navigator.geolocation) {
       console.log('Геолокація не підтримується браузером');
     } else {
       navigator.geolocation.getCurrentPosition((position: any) => {
-        this.openWeatherMapService.getWeatherFor5D(position.coords.latitude, position.coords.longitude).subscribe(res=>{
-          console.log(res);
-          this.choosenCityNameP = res;
-        })}, error => console.log('Не визначено місцезнаходження'));
+        console.log(position)
+        this.openWeatherMapService.getWeatherFor5D(position.coords.latitude, position.coords.longitude)
+        .subscribe((weatherData: Weather) => {
+          this.choosenCityNameP = weatherData;
+        });
+      }, error => console.log('Не визначено місцезнаходження'));
     }
   }
 
   ngOnDestroy() {
     this.unsubscribe.unsubscribe();
   }
-
 }
